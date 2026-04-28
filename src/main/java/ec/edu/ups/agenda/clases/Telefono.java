@@ -23,6 +23,12 @@ public class Telefono {
         this.unaPersona = unaPersona;
         this.unaOperadora = unaOperadora;
     }
+
+    public Telefono(int numero, String tipo) {
+        this.numero = numero;
+        this.tipo = tipo;
+    }
+    
     
     
 
@@ -62,7 +68,7 @@ public class Telefono {
         String resultado = "Datos del telefono: \n";
         resultado +="Numero de Telefono: " + numero + "\n";
         resultado +="Tipo de Telefono: " + tipo + "\n";
-        resultado +="Persona: " + unaPersona + "\n";
+        resultado +="Contacto: " + unaPersona + "\n";
         resultado +="Operadora: " + unaOperadora;
         
         return resultado;

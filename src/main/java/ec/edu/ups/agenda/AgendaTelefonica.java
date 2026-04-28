@@ -67,8 +67,9 @@ public class AgendaTelefonica {
         subir a Github (enlace publicado en Teams)
          */
         Scanner entrada = new Scanner(System.in);
-        ArrayList<OperadoraTelefonica> operadoras = new ArrayList<>();
-        ArrayList<Persona> contactos = new ArrayList<>();
+        ArrayList<OperadoraTelefonica> operadoras = new ArrayList();
+        ArrayList<Persona> contactos = new ArrayList();
+        ArrayList<Telefono> telefonos = new ArrayList();
 
         int opcion;
         do {
@@ -77,7 +78,7 @@ public class AgendaTelefonica {
             System.out.println("2.- Registrar Operadoras");
             System.out.println("3.- Registrar Telefonos");
             System.out.println("4.- Salir");
-            System.out.println("Elegir un numero");
+            System.out.println("Elegir un numero(1-4)");
 
             opcion = entrada.nextInt();
 
@@ -108,6 +109,7 @@ public class AgendaTelefonica {
                     } while (continuar1.equalsIgnoreCase("S"));
 
                     for (Persona personitas : contactos) {
+                        System.out.println("---------------");
                         System.out.println(personitas);
                     }
                     break;
@@ -128,11 +130,67 @@ public class AgendaTelefonica {
                     } while (continuar2.equalsIgnoreCase("S"));
 
                     for (OperadoraTelefonica operadorita : operadoras) {
+                        System.out.println("---------------------");
                         System.out.println(operadorita);
                     }
                     break;
                 case 3:
-                    System.out.println("Telefono");
+                    if (!contactos.isEmpty() && !operadoras.isEmpty()) {
+
+                        System.out.print("Ingrese el numero de telefono: ");
+                        int numero = entrada.nextInt();
+
+                        System.out.print("Ingrese el tipo de telefono (movil/casa/etc): ");
+                        String tipo = entrada.next();
+
+                        Telefono telefono = new Telefono(numero, tipo);
+                        //Buscar persona en la lista de personas
+                        boolean fuePersonaEncontrada = false;
+                        do {
+                            System.out.println("Ingresa la cedula de la persona: ");
+                            String cedulaBuscada = entrada.next();
+
+                            for (Persona personaEncontrada : contactos) {
+                                if (personaEncontrada.getCedula().equals(cedulaBuscada)){
+                                    telefono.setUnaPersona(personaEncontrada);
+                                    fuePersonaEncontrada = true;
+                                    break;
+                                }
+                            }
+
+                            if (!fuePersonaEncontrada) {
+                                System.out.println("No se encontro la persona.");
+                            }
+
+                        } while (!fuePersonaEncontrada);
+
+                        boolean fueOperadoraEncontrada = false;
+
+                        do {
+                            System.out.println("Ingresa el codigo de la Operadora");
+                            int codigoBuscado = entrada.nextInt();
+
+                            for (OperadoraTelefonica operadoraEncontrada : operadoras) {
+                                if (operadoraEncontrada.getCodigo() == codigoBuscado) {
+                                    telefono.setUnaOperadora(operadoraEncontrada);
+                                    fueOperadoraEncontrada = true;
+                                    break;
+                                }
+                            }
+
+                            if (!fueOperadoraEncontrada) {
+                                System.out.println("No se encontro la operadora.");
+                            }
+                        } while (!fueOperadoraEncontrada);
+
+                        telefonos.add(telefono);
+                        System.out.println("Se guardo su telefono :)");
+                    } else {
+                        System.out.println("No existen operadoras o personas registradas");
+                    }
+                    for (Telefono telefonito : telefonos) {
+                        System.out.println(telefonito);
+                    }
                     break;
                 case 4:
                     System.out.println("Saliendo del programa...");
@@ -140,7 +198,7 @@ public class AgendaTelefonica {
                 default:
                     System.out.println("Opcion invalida");
             }
-        } while(opcion != 4);
+        } while (opcion != 4);
         entrada.close();
-    } 
+    }
 }
